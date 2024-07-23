@@ -14,9 +14,9 @@
   document.addEventListener('keydown', function(e) {
     if (e.ctrlKey && e.key === '`') {
       focusChatArea(e) // Ctrl + ` --> Focus chat area
-    } else if (e.key === 'Home') {
+    } else if (e.ctrlKey && e.key === 'Home') {
       scrollToTop(e) // End --> Scroll to top
-    } else if (e.key === 'End') {
+    } else if (e.ctrlKey && e.key === 'End') {
       scrollToBottom(e) // End --> Scroll to bottom
     } else if (e.ctrlKey && e.key === 'b') {
       startNewChat(e) // Ctrl + B --> Start new chat
