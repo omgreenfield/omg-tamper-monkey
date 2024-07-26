@@ -1,7 +1,7 @@
 // ==UserScript==
-// @name         Utility
+// @name         Util
 // @namespace    http://tampermonkey.net/
-// @version      2024-06-21
+// @version      7_26_2024
 // @description  Various utility functions
 // @author       You
 // @match        https://*/*
@@ -36,6 +36,16 @@
     element.scrollTop = element.scrollHeight;
   };
 
+  window.querySelectorWithRegex = (regex, selector = '*', all = false) => {
+    let allElements = document.querySelectorAll(selector);
+    // Filter elements to find those with a class name matching the regex
+    let matchingElements = Array.prototype.filter.call(allElements, function(element) {
+      return element.outerHTML.match(regex);
+    });
+
+    return all ? matchingElements : matchingElements[0];
+  };
+
   window.querySelectorWithClassSubstring = (substring, selector = '*', all = false) => {
     let allElements = document.querySelectorAll(selector);
     // Filter elements to find those with a class name containing the substring
@@ -59,10 +69,34 @@
 
     return { key, ctrl, shift, alt, meta, action };
   };
-  
+
+  window.notTyping = (action) => {
+    return () => {
+      if (!window.isTyping()) {
+        action();
+      }
+    };
+  };
+
+  window.isTyping = () => {
+    const focusedElement = document.activeElement;
+    return focusedElement.tagName === 'INPUT' || 
+           focusedElement.tagName === 'TEXTAREA' || 
+           focusedElement.isContentEditable;
+  };
+
+  window.debug = (...args) => {
+    if (window.debugTamperMonkey) {
+      console.log(...args);
+    }
+  }
+
   window.registerHotkeys = (hotkeys) => {
-    const preprocessedHotkeys = Object.entries(hotkeys).map(window.parseHotkey);
-  
+    const preprocessedHotkeys = Object.entries(hotkeys).map((hotkey) => {
+      console.log('Registering TamperMonkey hotkey: ', hotkey);
+      return window.parseHotkey(hotkey)
+    });
+
     document.addEventListener('keydown', (e) => {
       for (const { key, ctrl, shift, alt, meta, action } of preprocessedHotkeys) {
         if (
@@ -72,6 +106,7 @@
           (meta === e.metaKey) &&
           (e.key.toUpperCase() === key)
         ) {
+          window.debug('TamperMonkey hotkey triggered: ', { key, ctrl, shift, alt, meta, action });
           action();
           e.preventDefault();
           break;
@@ -80,6 +115,5 @@
     }, false);
   };
 
-  // Tells other TamperMonkey scripts that it's OK to run Util functions
-  window.dispatchEvent(new CustomEvent('utilLoaded'));
+  window.debugTamperMonkey = true;
 })();

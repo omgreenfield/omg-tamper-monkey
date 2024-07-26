@@ -1,94 +1,59 @@
 // ==UserScript==
-// @name         ChatGPT Hotkeys
+// @name         GitHub PR Hotkeys
 // @namespace    http://tampermonkey.net/
-// @version      2024-06-21
+// @version      7_26_2024
 // @description  Add a few hotkeys to chatgpt.com
 // @author       You
-// @match        https://chatgpt.com/*
+// @match        https://github.com/*/pull/*
 // @grant        none
 // ==/UserScript==
 
 (function() {
   'use strict';
 
-  document.addEventListener('keydown', function(e) {
-    if (e.ctrlKey && e.key === '`') {
-      focusChatArea(e) // Ctrl + ` --> Focus chat area
-    } else if (e.ctrlKey && e.key === 'Home') {
-      scrollToTop(e) // End --> Scroll to top
-    } else if (e.ctrlKey && e.key === 'End') {
-      scrollToBottom(e) // End --> Scroll to bottom
-    } else if (e.ctrlKey && e.key === 'b') {
-      startNewChat(e) // Ctrl + B --> Start new chat
-    } else if (e.ctrlKey && e.key === '[') {
-      toggleSidebar(e); // Ctrl + [ --> Toggle sidebar
-    } else if (e.ctrlKey && e.key === 'ArrowUp') {
-      editLastMessage(e); // Ctrl + Up --> Edit last message
-    } else if (e.ctrlKey && e.key === 'Enter') {
-      saveEditedMessage(e); // Ctrl + Enter --> Save edited message
-    } else if (e.key === 'Esc') {
-      cancelOrStop(e); // Ctrl + Esc --> (1) Cancel editing, (2) stop generating
-    }
-  }, false);
-
-  const scrollToTop = (e) => {
-    window.scrollToTopOfElement(getConversationPane())
+  const navigateToConversation = () => {
+    window.location.href = window.location.href.replace(/(https:\/\/github\.com\/[^\/]+\/[^\/]+\/pull\/\d+).*/, '$1');
   }
 
-  const scrollToBottom = (e) => {
-    window.scrollToBottomOfElement(getConversationPane())
+  const navigateToCommits = () => {
+    document.querySelector('a[href$="/commits"]').click();
   }
 
-  const getConversationPane = () => {
-    return window.lastOfArray(window.querySelectorWithClassSubstring('react-scroll-to-bottom', 'div', true))
+  const navigateToChecks = () => {
+    document.querySelector('a[href$="/checks"]').checksTab.click();
+    
   }
 
-  const focusChatArea = (e) => {
-    e.preventDefault();
-    let textarea = document.querySelector('textarea');
-    textarea ? textarea.focus() : console.log("Couldn't find chat textarea");
+  const navigateToFilesChanged = () => {
+    document.querySelector('a[href$="/files"]').click();
   }
 
-  const startNewChat = (e) => {
-    e.preventDefault();
-    let button = window.getElementByXpath('/html/body/div[1]/div[1]/div[1]/div/div/div/div/nav/div[1]/span[2]/button')
-    if (!button) button = document.querySelector('.icon-xl-heavy')?.parent
-    button ? button.click() : console.log("Couldn't find new chat buttons");
+  const editBody = () => {
+    document.querySelector('.js-comment-edit-button').click();
   }
 
-  const toggleSidebar = (e) => {
-    e.preventDefault();
-    let button = window.getElementByXpath('/html/body/div[1]/div[1]/div[2]/main/div[1]/div[1]/div/div[1]/div/div[2]/div[1]/span[1]/button')
-    if (!button) button = window.getElementByXpath('/html/body/div[1]/div[1]/div[1]/div/div/div/div/nav/div[1]/span[1]/button')
-    button ? button.click() : console.log("Couldn't find toggle sidebar buttons");
+  const editTitle = () => {
+    document.querySelector('.js-title-edit-button').click();
   }
 
-  const editLastMessage = (e) => {
-    e.preventDefault();
-    let buttons = document.querySelectorAll('[data-message-author-role="user"] button')
-    let button = window.lastOfArray(buttons)
-    if (button) {
-      button.click()
-      window.scrollToElement(button)
-    } else {
-      console.log("Couldn't find last message button");
+  const cancel = () => {
+    try {
+      document.querySelector('.js-cancel-issue-edit').click()
+    } catch (e) {
+      document.querySelector('.js-comment-cancel-button').click()
     }
   }
 
-  const saveEditedMessage = (e) => {
-    e.preventDefault();
-    let button = document.querySelector('.group\\/conversation-turn .btn-primary')
-    button ? button.click() : console.log("Couldn't find Send button");
-  }
+  // For better readability
+  const notTyping = window.notTyping;
 
-  const cancelOrStop = (e) => {
-    e.preventDefault();
-    let button = document.querySelector('.group\\/conversation-turn .btn-secondary')
-    // Cancel button
-    button ? button.click() : console.log("Couldn't find Cancel button");
-    // Stop generating button
-    // Only works when text area is focused for some reason
-    button = document.querySelector('[data-testid="stop-button"]');
-    button ? button.click() : console.log("Couldn't find stop button");
-  }
+  window.registerHotkeys({
+    v: notTyping(navigateToConversation),
+    c: notTyping(navigateToCommits),
+    k: notTyping(navigateToChecks),
+    f: notTyping(navigateToFilesChanged),
+    t: notTyping(editTitle),
+    b: notTyping(editBody),
+    'Esc': cancel, // currently not triggering
+  });
 })();

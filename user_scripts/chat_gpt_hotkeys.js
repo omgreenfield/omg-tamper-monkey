@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         ChatGPT Hotkeys
 // @namespace    http://tampermonkey.net/
-// @version      2024-06-21
+// @version      7_26_2024
 // @description  Add a few hotkeys to chatgpt.com
 // @author       You
 // @match        https://chatgpt.com/*
@@ -11,19 +11,6 @@
 
 (function() {
   'use strict';
-
-  window.addEventListener('utilLoaded', () => {
-    window.registerHotkeys({
-      'Ctrl + `': focusChatArea,
-      'Ctrl + Home': scrollToTop,
-      'Ctrl + End': scrollToBottom,
-      'Ctrl + b': startNewChat,
-      'Ctrl + [': toggleSidebar,
-      'Ctrl + ArrowUp': editLastMessage,
-      'Ctrl + Enter': saveEditedMessage,
-      'Esc': cancelOrStop,
-    });
-  });
 
   const scrollToTop = () => {
     window.scrollToTopOfElement(getConversationPane())
@@ -79,4 +66,15 @@
     button = document.querySelector('[data-testid="stop-button"]');
     button ? button.click() : console.log("Couldn't find stop button");
   };
+
+  window.registerHotkeys({
+    'Ctrl + `': focusChatArea,
+    'Ctrl + Home': scrollToTop,
+    'Ctrl + End': scrollToBottom,
+    'Ctrl + b': startNewChat,
+    'Ctrl + [': toggleSidebar,
+    'Ctrl + ArrowUp': editLastMessage,
+    'Ctrl + Enter': saveEditedMessage,
+    'Esc': cancelOrStop,
+  });
 })();
