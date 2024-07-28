@@ -6,6 +6,7 @@
 // @author       You
 // @match        https://github.com/*/pull/*
 // @grant        none
+// @run-at       document-end
 // ==/UserScript==
 
 (function() {
