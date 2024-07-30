@@ -21,7 +21,7 @@
   }
 
   const navigateToChecks = () => {
-    document.querySelector('a[href$="/checks"]').checksTab.click();
+    document.querySelector('a[href$="/checks"]').click();
     
   }
 
@@ -49,12 +49,12 @@
   const notTyping = window.notTyping;
 
   window.registerHotkeys({
-    v: notTyping(navigateToConversation),
-    c: notTyping(navigateToCommits),
-    k: notTyping(navigateToChecks),
-    f: notTyping(navigateToFilesChanged),
-    t: notTyping(editTitle),
-    b: notTyping(editBody),
+    'Alt + v': notTyping(navigateToConversation),
+    'Alt + c': notTyping(navigateToCommits),
+    'Alt + k': notTyping(navigateToChecks),
+    'Alt + f': notTyping(navigateToFilesChanged),
+    'Alt + t': notTyping(editTitle),
+    'Alt + b': notTyping(editBody),
     'Esc': cancel, // currently not triggering
   });
 })();
