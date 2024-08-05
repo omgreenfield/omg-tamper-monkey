@@ -69,8 +69,8 @@
 
   window.registerHotkeys({
     'Ctrl + `': focusChatArea,
-    'Ctrl + Home': scrollToTop,
-    'Ctrl + End': scrollToBottom,
+    'Alt + PageUp': scrollToTop,
+    'Alt + PageDown': scrollToBottom,
     'Ctrl + b': startNewChat,
     'Ctrl + [': toggleSidebar,
     'Ctrl + ArrowUp': editLastMessage,
