@@ -58,23 +58,23 @@ document.querySelectorAll('[data-hotkey]').forEach((thing) => console.log(thing?
   }
 
   const navigateToCommits = () => {
-    document.querySelector('a[href$="/commits"]').click();
+    window.click('a[href$="/commits"]')
   }
 
   const navigateToChecks = () => {
-    document.querySelector('a[href$="/checks"]').click();
+    window.click('a[href$="/checks"]')
   }
 
   const navigateToFilesChanged = () => {
-    document.querySelector('a[href$="/files"]').click();
+    window.click('a[href$="/files"]')
   }
 
   const editBody = () => {
     let editButton = document.querySelector('.js-comment-edit-button')
     if (!editButton) {
-      document.querySelector('.timeline-comment-action').click()
+      window.click('.timeline-comment-action')
       window.waitForElement('.js-comment-edit-button', () => {
-        document.querySelector('.js-comment-edit-button').click();
+        window.click('.js-comment-edit-button')
       });
     } else {
       editButton.click();
@@ -82,19 +82,23 @@ document.querySelectorAll('[data-hotkey]').forEach((thing) => console.log(thing?
   }
 
   const editTitle = () => {
-    document.querySelector('.js-title-edit-button').click();
+    window.click('.js-title-edit-button');
+    window.focus('#issue_title');
   }
 
   const cancel = () => {
-    try {
-      document.querySelector('.js-cancel-issue-edit').click()
-    } catch (e) {
-      document.querySelector('.js-comment-cancel-button').click()
+    if (window.isElementFocused('.js-comment-field')) {
+      window.click('.js-comment-cancel-button')
+    } else if (window.isElementFocused('#issue_title')) {
+      window.click('.js-cancel-issue-edit')
+    } else {
+      window.click('.js-comment-cancel-button')
+      window.click('.js-cancel-issue-edit')
     }
   }
 
   const copyBranch = () => {
-    const branch = document.querySelector('.js-copy-branch').click();
+    const branch = window.click('.js-copy-branch')
   }
 
   const notTyping = window.notTyping;
@@ -104,9 +108,9 @@ document.querySelectorAll('[data-hotkey]').forEach((thing) => console.log(thing?
     'Alt + c': notTyping(navigateToCommits),
     'Alt + k': notTyping(navigateToChecks),
     'Alt + f': notTyping(navigateToFilesChanged),
-    'Alt + t': notTyping(editTitle),
-    'Alt + b': notTyping(editBody),
-    'Alt + r': notTyping(copyBranch),
-    'Esc': cancel, // currently not triggering
+    'Alt + t': editTitle,
+    'Alt + b': editBody,
+    'Alt + r': copyBranch,
+    'Alt + x': cancel, // currently not triggering
   });
 })();

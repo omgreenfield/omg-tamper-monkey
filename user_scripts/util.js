@@ -116,6 +116,26 @@
     }, false);
   };
 
+  window.click = (selector) => {
+    try {
+      document.querySelector(selector).click()
+    } catch (e) {
+      console.log(`Could not click element with selector '${selector}'`)
+    }
+  }
+  
+  window.focus = (selector) => {
+    try {
+      document.querySelector(selector).focus()
+    } catch (e) {
+      console.log(`Could not focus element with selector '${selector}'`)
+    }
+  }
+
+  window.isElementFocused = (selector) => {
+    return document.activeElement == document.querySelector(selector)
+  };
+
   window.waitForElement = (selector, callback, interval = 100, maxRetries = 10) => {
     let retries = 0;
 
