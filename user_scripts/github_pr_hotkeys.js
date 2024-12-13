@@ -70,7 +70,15 @@ document.querySelectorAll('[data-hotkey]').forEach((thing) => console.log(thing?
   }
 
   const editBody = () => {
-    document.querySelector('.js-comment-edit-button').click();
+    let editButton = document.querySelector('.js-comment-edit-button')
+    if (!editButton) {
+      document.querySelector('.timeline-comment-action').click()
+      window.waitForElement('.js-comment-edit-button', () => {
+        document.querySelector('.js-comment-edit-button').click();
+      });
+    } else {
+      editButton.click();
+    }
   }
 
   const editTitle = () => {

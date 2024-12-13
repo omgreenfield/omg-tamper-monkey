@@ -116,5 +116,23 @@
     }, false);
   };
 
+  window.waitForElement = (selector, callback, interval = 100, maxRetries = 10) => {
+    let retries = 0;
+
+    const checkForElement = () => {
+      const element = document.querySelector(selector)
+      if (element) {
+        callback()
+      } else if (retries < maxRetries) {
+        retries ++;
+        setTimeout(checkForElement, interval)
+      } else {
+        console.log(`Element with selector: '${selector}' did not appear after ${maxRetries} retries`);
+      }
+    }
+
+    checkForElement()
+  };
+
   window.debugTamperMonkey = true;
 })();
