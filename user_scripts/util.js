@@ -94,7 +94,7 @@
 
   window.registerHotkeys = (hotkeys) => {
     const preprocessedHotkeys = Object.entries(hotkeys).map((hotkey) => {
-      console.log('Registering TamperMonkey hotkey: ', hotkey);
+      console.log('[TM] Registering TamperMonkey hotkey: ', hotkey);
       return window.parseHotkey(hotkey)
     });
 
@@ -120,7 +120,7 @@
     try {
       document.querySelector(selector).click()
     } catch (e) {
-      console.log(`Could not click element with selector '${selector}'`)
+      console.log(`[TM] Could not click element with selector '${selector}'`)
     }
   }
   
@@ -128,7 +128,7 @@
     try {
       document.querySelector(selector).focus()
     } catch (e) {
-      console.log(`Could not focus element with selector '${selector}'`)
+      console.log(`[TM] Could not focus element with selector '${selector}'`)
     }
   }
 
@@ -147,7 +147,7 @@
         retries ++;
         setTimeout(checkForElement, interval)
       } else {
-        console.log(`Element with selector: '${selector}' did not appear after ${maxRetries} retries`);
+        console.log(`[TM] Element with selector: '${selector}' did not appear after ${maxRetries} retries`);
       }
     }
 

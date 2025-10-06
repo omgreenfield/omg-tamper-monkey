@@ -12,69 +12,63 @@
 (function() {
   'use strict';
 
-  const scrollToTop = () => {
-    window.scrollToTopOfElement(getConversationPane())
-  };
-
-  const scrollToBottom = () => {
-    window.scrollToBottomOfElement(getConversationPane())
-  };
-
-  const getConversationPane = () => {
-    return window.lastOfArray(window.querySelectorWithClassSubstring('react-scroll-to-bottom', 'div', true))
-  };
-
   const focusChatArea = () => {
     let textarea = document.querySelector('textarea');
-    textarea ? textarea.focus() : console.log("Couldn't find chat textarea");
+    textarea ? textarea.focus() : console.log("[TM] Couldn't find chat textarea");
   };
 
   const startNewChat = () => {
-    let button = window.getElementByXpath('/html/body/div[1]/div[1]/div[1]/div/div/div/div/nav/div[1]/span[2]/button')
-    if (!button) button = document.querySelector('.icon-xl-heavy')?.parent
-    button ? button.click() : console.log("Couldn't find new chat buttons");
-  };
-
-  const toggleSidebar = () => {
-    let button = window.getElementByXpath('/html/body/div[1]/div[1]/div[2]/main/div[1]/div[1]/div/div[1]/div/div[2]/div[1]/span[1]/button')
-    if (!button) button = window.getElementByXpath('/html/body/div[1]/div[1]/div[1]/div/div/div/div/nav/div[1]/span[1]/button')
-    button ? button.click() : console.log("Couldn't find toggle sidebar buttons");
+    // TODO: make this just send Ctrl+Shift+O
   };
 
   const editLastMessage = () => {
-    let buttons = document.querySelectorAll('[data-message-author-role="user"] button')
+    let buttons = document.querySelectorAll('[aria-label="Edit message"]')
     let button = window.lastOfArray(buttons)
     if (button) {
       button.click()
       window.scrollToElement(button)
+      let textarea = document.querySelector('textarea')
+      if (textarea) {
+        textarea.focus()
+      } else {
+        console.log("[TM] Couldn't find edit textarea");
+      }
     } else {
-      console.log("Couldn't find last message button");
+      console.log("[TM] Couldn't find last message button");
     }
   };
 
   const saveEditedMessage = () => {
-    let button = document.querySelector('.group\\/conversation-turn .btn-primary')
-    button ? button.click() : console.log("Couldn't find Send button");
+    let button = window.lastOfArray(document.querySelectorAll('[as="button"].btn-primary'))
+    button ? button.click() : console.log("[TM] Couldn't find Send button");
   };
 
   const cancelOrStop = () => {
-    let button = document.querySelector('.group\\/conversation-turn .btn-secondary')
+    let button = window.lastOfArray(document.querySelectorAll('[as="button"].btn-secondary'))
     // Cancel button
-    button ? button.click() : console.log("Couldn't find Cancel button");
+    if (button) {
+      button.click()
+      console.log("[TM] Clicking Cancel")
+      return
+    } else {
+      console.log("[TM] Couldn't find Cancel button");
+    }
+
     // Stop generating button
-    // Only works when text area is focused for some reason
-    button = document.querySelector('[data-testid="stop-button"]');
-    button ? button.click() : console.log("Couldn't find stop button");
+    button = document.querySelector('#composer-submit-button');
+    if (button) {
+      button.click()
+      console.log("[TM] Clicking Stop")
+    } else {
+      console.log("[TM] Couldn't find Stop button");
+    }
   };
 
   window.registerHotkeys({
     'Ctrl + `': focusChatArea,
-    'Alt + PageUp': scrollToTop,
-    'Alt + PageDown': scrollToBottom,
     'Ctrl + b': startNewChat,
-    'Ctrl + [': toggleSidebar,
     'Ctrl + ArrowUp': editLastMessage,
     'Ctrl + Enter': saveEditedMessage,
-    'Esc': cancelOrStop,
+    'Ctrl + ArrowDown': cancelOrStop,
   });
 })();
