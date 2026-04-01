@@ -53,6 +53,19 @@ document.querySelectorAll('[data-hotkey]').forEach((thing) => console.log(thing?
 (function() {
   'use strict';
 
+  const showHotkeys = () => {
+    document.querySelectorAll('[data-hotkey]').forEach((thing) => console.log(thing?.text?.trim(), thing.getAttribute('data-hotkey'), thing.getAttribute('data-analytics-event')))
+  }
+
+  const toggleViewed = () => {
+    Array.from(document.querySelectorAll('button'))
+      .filter((button) => button.textContent?.includes('Viewed'))
+      .filter((button) => button.getAttribute('aria-pressed') === `${!window.tamperMonkey.gitHub.viewed}`)
+      .forEach(button => button.click())
+
+    window.tamperMonkey.gitHub.viewed = !window.tamperMonkey.gitHub.viewed
+  }
+
   const navigateToConversation = () => {
     window.location.href = window.location.href.replace(/(https:\/\/github\.com\/[^\/]+\/[^\/]+\/pull\/\d+).*/, '$1');
   }
@@ -104,13 +117,15 @@ document.querySelectorAll('[data-hotkey]').forEach((thing) => console.log(thing?
   const notTyping = window.notTyping;
 
   window.registerHotkeys({
-    'Alt + v': notTyping(navigateToConversation),
-    'Alt + c': notTyping(navigateToCommits),
-    'Alt + k': notTyping(navigateToChecks),
-    'Alt + f': notTyping(navigateToFilesChanged),
-    'Alt + t': editTitle,
-    'Alt + b': editBody,
-    'Alt + r': copyBranch,
-    'Alt + x': cancel, // currently not triggering
+    'Alt + Meta + v': notTyping(navigateToConversation),
+    'Alt + Meta + c': notTyping(navigateToCommits),
+    'Alt + Meta + k': notTyping(navigateToChecks),
+    'Alt + Meta + f': notTyping(navigateToFilesChanged),
+    'Alt + Meta + t': editTitle,
+    'Alt + Meta + b': editBody,
+    'Alt + Meta + r': copyBranch,
+    'Alt + Meta + x': cancel, // currently not triggering
+    'Ctrl + Shift + /': showHotkeys,
+    'Ctrl + Shift + v': toggleViewed
   });
 })();

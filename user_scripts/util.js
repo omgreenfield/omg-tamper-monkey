@@ -87,7 +87,7 @@
   };
 
   window.debug = (...args) => {
-    if (window.debugTamperMonkey) {
+    if (window.tamperMonkey.debug) {
       console.log(...args);
     }
   }
@@ -99,6 +99,9 @@
     });
 
     document.addEventListener('keydown', (e) => {
+      if (window.tamperMonkey.debugKeys) {
+        window.debug('keydown', { e });
+      }
       for (const { key, ctrl, shift, alt, meta, action } of preprocessedHotkeys) {
         if (
           (ctrl === e.ctrlKey) &&
@@ -123,7 +126,7 @@
       console.log(`[TM] Could not click element with selector '${selector}'`)
     }
   }
-  
+
   window.focus = (selector) => {
     try {
       document.querySelector(selector).focus()
@@ -154,5 +157,15 @@
     checkForElement()
   };
 
-  window.debugTamperMonkey = true;
+  window.tmDebug = () => {
+    window.tamperMonkey.debug = !window.tamperMonkey.debug
+  }
+
+  window.tamperMonkey = {
+    debug: false,
+    debugKeys: false,
+    gitHub: {},
+    chatGpt: {},
+    global: {}
+  }
 })();
