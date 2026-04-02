@@ -117,15 +117,15 @@ document.querySelectorAll('[data-hotkey]').forEach((thing) => console.log(thing?
   const notTyping = window.notTyping;
 
   window.registerHotkeys({
-    'Alt + Meta + v': notTyping(navigateToConversation),
-    'Alt + Meta + c': notTyping(navigateToCommits),
-    'Alt + Meta + k': notTyping(navigateToChecks),
-    'Alt + Meta + f': notTyping(navigateToFilesChanged),
-    'Alt + Meta + t': editTitle,
-    'Alt + Meta + b': editBody,
-    'Alt + Meta + r': copyBranch,
-    'Alt + Meta + x': cancel, // currently not triggering
+    'Ctrl + Shift + v': notTyping(navigateToConversation),
+    'Ctrl + Shift + c': notTyping(navigateToCommits),
+    'Ctrl + Shift + k': notTyping(navigateToChecks),
+    'Ctrl + Shift + f': notTyping(navigateToFilesChanged),
+    'Ctrl + Shift + t': editTitle,
+    'Ctrl + Shift + b': editBody,
+    'Ctrl + Shift + r': copyBranch,
+    'Ctrl + Shift + x': cancel, // currently not triggering
     'Ctrl + Shift + /': showHotkeys,
-    'Ctrl + Shift + v': toggleViewed
+    'Ctrl + Shift + w': toggleViewed
   });
 })();

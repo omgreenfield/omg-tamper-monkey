@@ -95,7 +95,10 @@
   window.registerHotkeys = (hotkeys) => {
     const preprocessedHotkeys = Object.entries(hotkeys).map((hotkey) => {
       console.log('[TM] Registering TamperMonkey hotkey: ', hotkey);
-      return window.parseHotkey(hotkey)
+      const parsedHotkey = window.parseHotkey(hotkey)
+      ;(window.tamperMonkey.hotkeys ||= []).push(parsedHotkey)
+
+      return parsedHotkey
     });
 
     document.addEventListener('keydown', (e) => {
@@ -161,11 +164,21 @@
     window.tamperMonkey.debug = !window.tamperMonkey.debug
   }
 
+  window.help = () => {
+    console.log("/////////////////////////////////////////////////////////////////")
+    console.log("// Config: `window.tamperMonkey")
+    console.log("/////////////////////////////////////////////////////////////////")
+    console.log('')
+    console.log({ ...window.tamperMonkey })
+    console.log(window.tamperMonkey.hotkeys)
+  }
+
   window.tamperMonkey = {
-    debug: false,
+    debug: true,
     debugKeys: false,
     gitHub: {},
     chatGpt: {},
-    global: {}
+    global: {},
+    hotkeys: [],
   }
 })();
