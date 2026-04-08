@@ -67,27 +67,35 @@ document.querySelectorAll('[data-hotkey]').forEach((thing) => console.log(thing?
   }
 
   const navigateToConversation = () => {
-    window.location.href = window.location.href.replace(/(https:\/\/github\.com\/[^\/]+\/[^\/]+\/pull\/\d+).*/, '$1');
+    if (!window.tmIsTyping()) {
+      window.location.href = window.location.href.replace(/(https:\/\/github\.com\/[^\/]+\/[^\/]+\/pull\/\d+).*/, '$1');
+    }
   }
 
   const navigateToCommits = () => {
-    window.click('a[href$="/commits"]')
+    if (!window.tmIsTyping()) {
+      window.tmClick('a[href$="/commits"]')
+    }
   }
 
   const navigateToChecks = () => {
-    window.click('a[href$="/checks"]')
+    if (!window.tmIsTyping()) {
+      window.tmClick('a[href$="/checks"]')
+    }
   }
 
   const navigateToFilesChanged = () => {
-    window.click('a[href$="/files"]')
+    if (!window.tmIsTyping()) {
+      window.tmClick('a[href$="/files"]')
+    }
   }
 
   const editBody = () => {
     let editButton = document.querySelector('.js-comment-edit-button')
     if (!editButton) {
-      window.click('.timeline-comment-action')
-      window.waitForElement('.js-comment-edit-button', () => {
-        window.click('.js-comment-edit-button')
+      window.tmClick('.timeline-comment-action')
+      window.tmWaitForElement('.js-comment-edit-button', () => {
+        window.tmClick('.js-comment-edit-button')
       });
     } else {
       editButton.click();
@@ -95,32 +103,36 @@ document.querySelectorAll('[data-hotkey]').forEach((thing) => console.log(thing?
   }
 
   const editTitle = () => {
-    window.click('.js-title-edit-button');
-    window.focus('#issue_title');
+    window.tmClick('[data-component="PH_Title"] button')
   }
 
   const cancel = () => {
-    if (window.isElementFocused('.js-comment-field')) {
-      window.click('.js-comment-cancel-button')
-    } else if (window.isElementFocused('#issue_title')) {
-      window.click('.js-cancel-issue-edit')
-    } else {
-      window.click('.js-comment-cancel-button')
-      window.click('.js-cancel-issue-edit')
-    }
+    window.tmGetElementsWithText('Cancel').filter((element) => element.checkVisibility()).forEach((button) => button.click())
+    // if (window.tmIsElementFocused('.js-comment-field')) {
+    //   window.tmClick('.js-comment-cancel-button')
+    // } else if (window.tmIsElementFocused('#issue_title')) {
+    //   window.tmClick('.js-cancel-issue-edit')
+    // } else {
+    //   window.tmClick('.js-comment-cancel-button')
+    //   window.tmClick('.js-cancel-issue-edit')
+    // }
   }
 
   const copyBranch = () => {
-    const branch = window.click('.js-copy-branch')
+    const anchors = document.querySelectorAll('.octicon-copy')
+    anchors.forEach((anchor) => {
+      const button = anchor.closest('button')
+      if (button && button.click) {
+        button.click()
+      }
+    })
   }
 
-  const notTyping = window.notTyping;
-
-  window.registerHotkeys({
-    'Ctrl + Shift + v': notTyping(navigateToConversation),
-    'Ctrl + Shift + c': notTyping(navigateToCommits),
-    'Ctrl + Shift + k': notTyping(navigateToChecks),
-    'Ctrl + Shift + f': notTyping(navigateToFilesChanged),
+  window.tmRegisterHotkeys({
+    'Ctrl + Shift + v': navigateToConversation,
+    'Ctrl + Shift + c': navigateToCommits,
+    'Ctrl + Shift + k': navigateToChecks,
+    'Ctrl + Shift + f': navigateToFilesChanged,
     'Ctrl + Shift + t': editTitle,
     'Ctrl + Shift + b': editBody,
     'Ctrl + Shift + r': copyBranch,

@@ -23,10 +23,10 @@
 
   const editLastMessage = () => {
     let buttons = document.querySelectorAll('[aria-label="Edit message"]')
-    let button = window.lastOfArray(buttons)
+    let button = window.tmLastOfArray(buttons)
     if (button) {
       button.click()
-      window.scrollToElement(button)
+      window.tmScrollToElement(button)
       let textarea = document.querySelector('textarea')
       if (textarea) {
         textarea.focus()
@@ -39,12 +39,12 @@
   };
 
   const saveEditedMessage = () => {
-    let button = window.lastOfArray(document.querySelectorAll('[as="button"].btn-primary'))
+    let button = window.tmLastOfArray(document.querySelectorAll('[as="button"].btn-primary'))
     button ? button.click() : console.log("[TM] Couldn't find Send button");
   };
 
   const cancelOrStop = () => {
-    let button = window.lastOfArray(document.querySelectorAll('[as="button"].btn-secondary'))
+    let button = window.tmLastOfArray(document.querySelectorAll('[as="button"].btn-secondary'))
     // Cancel button
     if (button) {
       button.click()
@@ -64,7 +64,7 @@
     }
   };
 
-  window.registerHotkeys({
+  window.tmRegisterHotkeys({
     'Ctrl + `': focusChatArea,
     'Ctrl + b': startNewChat,
     'Ctrl + ArrowUp': editLastMessage,

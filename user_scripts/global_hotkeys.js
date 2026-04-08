@@ -37,7 +37,7 @@
     }, 1000);
   }
 
-  window.registerHotkeys({
+  window.tmRegisterHotkeys({
     'Ctrl + Shift + Enter': highlightSelection,
   });
 })();
