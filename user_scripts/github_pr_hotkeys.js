@@ -68,7 +68,7 @@ document.querySelectorAll('[data-hotkey]').forEach((thing) => console.log(thing?
 
   const navigateToConversation = () => {
     if (!window.tmIsTyping()) {
-      window.location.href = window.location.href.replace(/(https:\/\/github\.com\/[^\/]+\/[^\/]+\/pull\/\d+).*/, '$1');
+      window.location.href = window.location.href.replace(/(https:\/\/github\.com\/[^/]+\/[^/]+\/pull\/\d+).*/, '$1');
     }
   }
 
@@ -86,7 +86,7 @@ document.querySelectorAll('[data-hotkey]').forEach((thing) => console.log(thing?
 
   const navigateToFilesChanged = () => {
     if (!window.tmIsTyping()) {
-      window.tmClick('a[href$="/files"]')
+      window.tmClick('a[href$="/changes"]')
     }
   }
 
