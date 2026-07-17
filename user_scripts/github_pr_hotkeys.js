@@ -1,9 +1,9 @@
 // ==UserScript==
 // @name         GitHub PR Hotkeys
 // @namespace    http://tampermonkey.net/
-// @version      7_26_2024
+// @version      7/15/2026
 // @description  Add a few hotkeys to chatgpt.com
-// @author       You
+// @author       omgreenfield
 // @match        https://github.com/*/pull/*
 // @grant        none
 // @run-at       document-end

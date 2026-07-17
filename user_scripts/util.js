@@ -1,9 +1,9 @@
 // ==UserScript==
 // @name         Util
 // @namespace    http://tampermonkey.net/
-// @version      7_26_2024
+// @version      7/15/2026
 // @description  Various utility functions
-// @author       You
+// @author       omgreenfield
 // @match        https://*/*
 // @icon         data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==
 // @grant        none
