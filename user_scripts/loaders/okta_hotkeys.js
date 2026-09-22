@@ -4,7 +4,7 @@
 // @version      7/15/2026
 // @description  Give Okta some hotkeys
 // @author       omgreenfield
-// @match        https://fleetio.okta.com/app/UserHome
+// @match        https://fleetio.okta.com/*
 // @icon         https://www.google.com/s2/favicons?sz=64&domain=okta.com
 // @grant        none
 // @run-at       document-end
