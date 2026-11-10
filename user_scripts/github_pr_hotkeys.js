@@ -91,15 +91,7 @@ document.querySelectorAll('[data-hotkey]').forEach((thing) => console.log(thing?
   }
 
   const editBody = () => {
-    let editButton = document.querySelector('.js-comment-edit-button')
-    if (!editButton) {
-      window.tmClick('.timeline-comment-action')
-      window.tmWaitForElement('.js-comment-edit-button', () => {
-        window.tmClick('.js-comment-edit-button')
-      });
-    } else {
-      editButton.click();
-    }
+    window.tmClick('[data-dd-action-name="pull_requests.description.edit"]')
   }
 
   const editTitle = () => {
