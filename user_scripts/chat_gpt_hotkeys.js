@@ -21,6 +21,14 @@
     // TODO: make this just send Ctrl+Shift+O
   };
 
+  const selectChatMode = () => {
+    window.tmGetElementsWithText("Chat", "button")[0].click()
+  }
+
+  const selectWorkMode = () => {
+    window.tmGetElementsWithText("Work", "button")[0].click()
+  }
+
   const editLastMessage = () => {
     let buttons = document.querySelectorAll('[aria-label="Edit message"]')
     let button = window.tmLastOfArray(buttons)
@@ -70,5 +78,7 @@
     'Ctrl + ArrowUp': editLastMessage,
     'Ctrl + Enter': saveEditedMessage,
     'Ctrl + ArrowDown': cancelOrStop,
+    'Ctrl + Shift + w': selectWorkMode,
+    'Ctrl + Shift + c': selectChatMode
   });
 })();
