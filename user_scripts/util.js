@@ -17,14 +17,14 @@
     return document.evaluate(path, document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;
   };
 
-  window.tmGetElementsWithText = (text, elementType = '*') => {
-    return Array.from(document.querySelectorAll(elementType)).filter(element =>
+  window.tmGetElementsWithText = (text, querySelector = '*') => {
+    return Array.from(document.querySelectorAll(querySelector)).filter(element =>
       element.textContent === text
     );
   };
 
-  window.tmGetElementsIncludingText = (text, elementType = '*') => {
-    return Array.from(document.querySelectorAll(elementType)).filter(element =>
+  window.tmGetElementsIncludingText = (text, querySelector = '*') => {
+    return Array.from(document.querySelectorAll(querySelector)).filter(element =>
       element.textContent.includes(text)
     );
   };
@@ -138,7 +138,7 @@
     try {
       document.querySelector(selector).click()
     } catch (e) {
-      console.log(`[TM] Could not click element with selector '${selector}'`)
+      console.log(`[TM] Could not click element with selector '${selector}'`, e)
     }
   }
 
@@ -146,7 +146,7 @@
     try {
       document.querySelector(selector).focus()
     } catch (e) {
-      console.log(`[TM] Could not focus element with selector '${selector}'`)
+      console.log(`[TM] Could not focus element with selector '${selector}'`, e)
     }
   }
 
